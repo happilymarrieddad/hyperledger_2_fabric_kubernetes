@@ -21,7 +21,10 @@ export default createStore({
           })
       },
       async hasPermissionForRoute({}, { route = '' }) {
-        // TODO: Check 
+        // TODO: Check
+        return new Promise((resolve) => {
+            return resolve([true, null]);
+        })
       }
   },
   getters: {
