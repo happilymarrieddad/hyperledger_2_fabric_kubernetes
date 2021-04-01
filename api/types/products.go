@@ -1,10 +1,13 @@
 package types
 
+import (
+	"gorm.io/gorm"
+)
+
 type Product struct {
-	IDIdentity
-	StampedEntity
-	Name            string  `json:"name" xorm:"name"`
-	OrganizationIDs []int64 `json:"organization_ids" xorm:"organization_ids"`
+	gorm.Model
+	Name          string         `json:"name"`
+	Organizations []Organization `json:"organizations" gorm:"many2many:product_organizations;"`
 }
 
 func (p *Product) TableName() string {

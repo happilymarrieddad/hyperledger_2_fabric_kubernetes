@@ -1,13 +1,13 @@
 package types
 
+import "gorm.io/gorm"
+
 type OrderItem struct {
-	IDIdentity
-	StampedEntity
-	Quantity       int     `json:"quantity" xorm:"quantity"`
-	ProductID      int64   `json:"product_id" xorm:"product_id"`
-	OrderID        int64   `json:"order_id" xorm:"order_id"`
-	OrganizationID []int64 `json:"organization_id" xorm:"organization_id"`
-	Product        Product `json:"product" xorm:"product"`
+	gorm.Model
+	Quantity  int      `json:"quantity"`
+	Product   *Product `json:"product" gorm:"ForeignKey:ProductID"`
+	ProductID uint     `json:"product_id"`
+	OrderID   uint     `json:"order_id"`
 }
 
 func (o *OrderItem) TableName() string {

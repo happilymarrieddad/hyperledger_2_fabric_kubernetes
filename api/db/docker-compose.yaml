@@ -31,8 +31,8 @@ services:
     networks: 
       - hyperledger
     restart: always
-  nats:
-    container_name: nats
-    image: nats:2.1.6
-    ports:
-      - 4222:4222
+  # nats:
+  #   container_name: nats
+  #   image: nats:2.1.6
+  #   ports:
+  #     - 4222:4222

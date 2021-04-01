@@ -1,6 +1,7 @@
 CURRENT_HYPERLEDGER_VERSION=2.2.1
 CURRENT_FABRIC_CA_VERSION=1.4.9
 CURRENT_DB=order-manager
+CURRENT_DB_TEST=order-manager-test
 
 install:
 	curl -sSL https://bit.ly/2ysbOFE | bash -s -- $(CURRENT_HYPERLEDGER_VERSION) $(CURRENT_FABRIC_CA_VERSION)
@@ -29,6 +30,14 @@ db.migrate.create:
 
 db.migrate.up:
 	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB}?connect_timeout=180&sslmode=disable" up
+	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB_TEST}?connect_timeout=180&sslmode=disable" up
+
+db.migrate.reset:
+	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB}?connect_timeout=180&sslmode=disable" reset
+	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB_TEST}?connect_timeout=180&sslmode=disable" reset
 
 db.migrate.down:
-	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB}?connect_timeout=180&sslmode=disable" reset
+	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB}?connect_timeout=180&sslmode=disable" down
+	goose -dir api/db/migrations postgres "postgres://postgres:postgres@localhost:5432/${CURRENT_DB_TEST}?connect_timeout=180&sslmode=disable" down
+
+db.migrate.redo: db.migrate.reset db.migrate.up
